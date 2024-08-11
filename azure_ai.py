@@ -3,8 +3,7 @@ from dotenv import load_dotenv
 import os
 import time
 import requests
-# Import libraries for Azure OpenAI
-from openai import AzureOpenAI
+import json
 # Load environment variables
 from prompt import GetPrompt
 
@@ -70,10 +69,15 @@ class AzureOpenAIClient:
         else:
             print(f"Request failed with status code {response.status_code}")
             return response.text
+        
+    def extract_json(response):
+        return json.loads(response.split('```')[1].replace('\n', '').replace('json', ''))
+
 
     def request_match(self, vendor_data, bzbs_data):
         prompt = GetPrompt(vendor_data, bzbs_data).prompt
         self.add_messages(messages=prompt)
         self.runs_thread()
-        result = self.get_chat_history()["data"][0]["content"][0]['text']['value']
+        response = self.get_chat_history()["data"][0]["content"][0]['text']['value']
+        result = self.extract_json(response)
         return result
