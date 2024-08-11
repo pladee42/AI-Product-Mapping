@@ -12,7 +12,7 @@ class AzureOpenAIClient:
         """
         Initializes the AzureOpenAIClient with environment variables.
         """
-        load_dotenv()  # Load environment variables from a .env file
+        load_dotenv(override=True)  # Load environment variables from a .env file
         
         # Set up Azure OpenAI API details
         self.azure_endpoint = os.getenv('AZURE_OPENAI_ENDPOINT')
