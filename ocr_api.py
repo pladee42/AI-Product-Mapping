@@ -1,6 +1,7 @@
 import requests
 from dotenv import load_dotenv
 import os
+import time
 
 class BZBSClient:
     def __init__(self):
@@ -25,6 +26,7 @@ class BZBSClient:
         Returns:
             str: The document reference ID if successful, otherwise an error message.
         """
+        print("=== Processing Add File API ===")
         # Construct the request body with the file URL
         body = {
             "FileUrl": f"{self.bzbs_blob}{file_name}"
@@ -54,9 +56,10 @@ class BZBSClient:
         Returns:
             dict: The content of the file if successful, otherwise an error message.
         """
+        print("=== Processing Add Detail API ===")
         # Set up the query parameters with the file ID
         params = {
-            "DocumentReferenceId": file_id
+            "DocumentRefernceId": file_id
         }
 
         # Send a GET request to the detail API
@@ -64,10 +67,14 @@ class BZBSClient:
 
         # Handle the response
         if response.status_code == 200:
-            # Parse the JSON response and extract the file content
+        # Parse the JSON response
             data = response.json()
-            content = data["Data"]["Content"]
-            return content
+            if data["Data"]["DocumentStatus"] == 'pending':
+                time.sleep(1.5)
+                return self.get_file_detail(file_id)
+            else:
+                content = data["Data"]["Content"]
+                return content
         else:
             # Print the error status and return the response text
             print(f"Request failed with status code {response.status_code}")

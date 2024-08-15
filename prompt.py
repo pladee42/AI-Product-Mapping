@@ -18,6 +18,7 @@ class GetPrompt:
                 -- BUZZEBEES DATA ENDS HERE --
 
                 Please provide the matching result in JSON format.
+                Response only JSON output, no explaination is required.
                 """
 
     def get_prompt(self, vendor_data, bzbs_data):
@@ -37,6 +38,7 @@ class GetPrompt:
                 -- BUZZEBEES DATA ENDS HERE --
 
                 Please provide the matching result in JSON format.
+                Response only JSON output, no explaination is required.
                 """
 
         return self.prompt

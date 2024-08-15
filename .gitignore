@@ -1,3 +1,10 @@
 .env
 __pycache__
 .gitignore
+.idea
+ipone.csv
+ipone2.csv
+azure_ai.ipynb
+ocr_api.ipynb
+hygeine_stock.xlsx
+taro_stock.xlsx
